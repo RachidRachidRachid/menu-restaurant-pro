@@ -75,14 +75,6 @@
             overflow-x: hidden;
         }
 
-        body.high-contrast {
-            --primary: #0056b3;
-            --bg: #ffffff;
-            --text: #000000;
-            --surface: #ffffff;
-            border: 2px solid #000;
-        }
-
         .glass {
             background: var(--surface);
             backdrop-filter: blur(var(--blur));
@@ -295,7 +287,6 @@
             text-transform: uppercase;
         }
 
-        .badge-promo { background: #FF3B30; }
         .badge-popular { background: #FF9500; }
         .badge-new { background: #34C759; }
 
@@ -330,8 +321,6 @@
             cursor: pointer;
             transition: var(--transition);
         }
-
-        .btn-order:hover { opacity: 0.9; }
 
         .admin-view {
             display: none;
@@ -417,15 +406,6 @@
             color: var(--text);
         }
 
-        .dropzone {
-            border: 2px dashed var(--text-muted);
-            border-radius: var(--radius-md);
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
         .order-card-admin {
             padding: 15px;
             margin-bottom: 15px;
@@ -464,10 +444,10 @@
                 <option value="fr">FR</option>
                 <option value="ar">AR</option>
             </select>
-            <button class="btn-icon" id="theme-toggle" aria-label="Changer de thème" onclick="App.toggleTheme()">
+            <button class="btn-icon" id="theme-toggle" onclick="App.toggleTheme()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
-            <button class="btn-icon" id="admin-gate" aria-label="Espace Administration" onclick="Router.navigate('admin')">
+            <button class="btn-icon" id="admin-gate" onclick="Router.navigate('admin')">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             </button>
         </div>
@@ -485,16 +465,11 @@
             <div class="table-selector-box glass">
                 <label id="lbl-table-select" style="font-weight: 600;">Numéro de votre Table :</label>
                 <select id="client-table-id" class="form-control" style="width: 100px;">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
+                    <option value="1">1</option><option value="2">2</option>
+                    <option value="3">3</option><option value="4">4</option>
+                    <option value="5">5</option><option value="6">6</option>
+                    <option value="7">7</option><option value="8">8</option>
+                    <option value="9">9</option><option value="10">10</option>
                 </select>
             </div>
 
@@ -550,35 +525,22 @@
                                 <label style="margin-right:10px;">Filtrer par Table :</label>
                                 <select id="admin-filter-table" class="form-control" style="width:120px; display:inline-block;" onchange="App.renderAdminOrders()">
                                     <option value="all">Toutes les tables</option>
-                                    <option value="1">Table 1</option>
-                                    <option value="2">Table 2</option>
-                                    <option value="3">Table 3</option>
-                                    <option value="4">Table 4</option>
-                                    <option value="5">Table 5</option>
-                                    <option value="6">Table 6</option>
-                                    <option value="7">Table 7</option>
-                                    <option value="8">Table 8</option>
-                                    <option value="9">Table 9</option>
-                                    <option value="10">Table 10</option>
+                                    <option value="1">Table 1</option><option value="2">Table 2</option>
+                                    <option value="3">Table 3</option><option value="4">Table 4</option>
+                                    <option value="5">Table 5</option><option value="6">Table 6</option>
+                                    <option value="7">Table 7</option><option value="8">Table 8</option>
+                                    <option value="9">Table 9</option><option value="10">Table 10</option>
                                 </select>
                             </div>
                         </div>
-                        <div id="admin-orders-container">
-                            </div>
+                        <div id="admin-orders-container"></div>
                     </div>
 
                     <div id="tab-products" class="admin-tab" style="display:none;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                             <h4>Catalogue Produits</h4>
-                            <button class="btn-order" onclick="alert('Formulaire complet accessible via votre Google Sheet lié')">Ajouter un Produit</button>
+                            <button class="btn-order" onclick="alert('Modification à réaliser directement dans votre Google Sheet connecté.')">Options Catalogue</button>
                         </div>
-                        
-                        <div class="dropzone" id="image-dropzone">
-                            <p>Glissez-déposez une image ici pour l'héberger sur votre Google Drive (Auto-WebP)</p>
-                            <input type="file" id="file-input" style="display:none;" accept="image/*">
-                            <progress id="upload-progress" value="0" max="100" style="width:100%; display:none; margin-top:10px;"></progress>
-                        </div>
-
                         <table class="crud-table glass">
                             <thead>
                                 <tr>
@@ -587,7 +549,6 @@
                                     <th>الاسم (AR)</th>
                                     <th>Prix</th>
                                     <th>Statut</th>
-                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-products-list"></tbody>
@@ -597,10 +558,10 @@
                     <div id="tab-settings" class="admin-tab" style="display:none;">
                         <h4>Paramètres Globaux de l'Établissement</h4>
                         <div class="glass" style="padding:20px; border-radius:var(--radius-lg); margin-top:15px;">
-                            <div class="form-group"><label>Nom du Restaurant</label><input type="text" id="set-name" class="form-control"></div>
-                            <div class="form-group"><label>Slogan</label><input type="text" id="set-slogan" class="form-control"></div>
-                            <div class="form-group"><label>Devise Monétaire</label><input type="text" id="set-currency" class="form-control"></div>
-                            <button class="btn-order" onclick="App.saveSettings()">Enregistrer les paramètres</button>
+                            <div class="form-group"><label>Nom du Restaurant</label><input type="text" id="set-name" class="form-control" readonly></div>
+                            <div class="form-group"><label>Slogan</label><input type="text" id="set-slogan" class="form-control" readonly></div>
+                            <div class="form-group"><label>Devise Monétaire</label><input type="text" id="set-currency" class="form-control" readonly></div>
+                            <p style="font-size:12px; color:var(--text-muted); margin-top:10px;">Éditez ces valeurs directement dans l'onglet PARAMETRES de votre Google Sheet.</p>
                         </div>
                     </div>
                 </section>
@@ -609,7 +570,8 @@
     </main>
 
     <script>
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRe2_Id7UpqHPajIGV9cf4Ypu7c14eSAS5nP6Wwincw7ezSUlnZ94Wd8Gu3qRzjJsq/exec";
+        // LIEN ACTIF DE VOTRE VERSION DE DÉPLOIEMENT 4
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5cMhwAWo61uHEBrlIRWZgckptP693calaZqECBpqm2T1ptk_I_NyTTxGtytCY6De-/exec";
 
         const Dictionnaires = {
             fr: {
@@ -662,7 +624,6 @@
                 this.detectTheme();
                 await this.fetchData();
                 this.renderClientUI();
-                this.setupUploadEngine();
             },
 
             detectTheme() {
@@ -690,22 +651,6 @@
 
             async fetchData() {
                 try {
-                    if(WEB_APP_URL.includes("VOTRE_SCRIPT_ID_ICI")) {
-                        State.parametres = { Nom_Restaurant: "L'Atelier Gourmet Pro", Slogan: "Créations culinaires écoresponsables / إبداعات الطهي المستدامة", Devise: "€" };
-                        State.categories = [
-                            { ID: "cat_1", Nom: "Entrées", Nom_AR: "المقبلات", Icone: "🥗" },
-                            { ID: "cat_2", Nom: "Plats", Nom_AR: "الأطباق الرئيسية", Icone: "🍳" }
-                        ];
-                        State.produits = [
-                            { ID: "p1", Nom: "Avocat Craquant", Nom_AR: "أفوكادو مقرمش", Description: "Émulsion d'agrumes.", Description_AR: "مستحلب الحمضيات الطازجة.", Categorie: "cat_1", Prix: 12, Disponible: "Oui", Populaire: "Oui", Image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=400" },
-                            { ID: "p2", Nom: "Filet de Bar Rôti", Nom_AR: "فيليه سمك القاروص", Description: "Mousseline de panais.", Description_AR: "موسلين الجزر الأبيض.", Categorie: "cat_2", Prix: 26, Disponible: "Oui", Nouveau: "Oui", Image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=400" }
-                        ];
-                        State.commandes = [
-                            { ID: "CMD_01", Date: new Date().toISOString(), Table: "3", Client_Nom: "Walk-in", Total: 38, Statut: "En attente", Articles_JSON: '[{"Nom":"Avocat Craquant","Qte":1},{"Nom":"Filet de Bar Rôti","Qte":1}]' }
-                        ];
-                        return;
-                    }
-
                     const res = await fetch(`${WEB_APP_URL}?action=getInitialData`);
                     const json = await res.json();
                     
@@ -714,7 +659,7 @@
                     State.produits = json.produits;
                     State.commandes = json.commandes || [];
                 } catch(err) {
-                    console.error("Erreur d'acquisition réseau: ", err);
+                    console.error("Erreur réseau: ", err);
                 }
             },
 
@@ -835,16 +780,14 @@
                     Articles_JSON: JSON.stringify([{ Nom: item.Nom, Qte: 1 }])
                 };
 
-                if(!WEB_APP_URL.includes("VOTRE_SCRIPT_ID_ICI")) {
-                    try {
-                        await fetch(WEB_APP_URL, {
-                            method: 'POST',
-                            body: JSON.stringify({ action: 'newCommande', data: orderPayload })
-                        });
-                    } catch(e) { console.error("Erreur d'envoi de la commande"); }
-                }
+                try {
+                    await fetch(WEB_APP_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({ action: 'newCommande', data: orderPayload })
+                    });
+                } catch(e) { console.error("Erreur d'envoi de la commande", e); }
 
-                // Simulation synchrone du push local pour démonstration instantanée
                 State.commandes.push({
                     ID: "CMD_" + Date.now(),
                     Date: new Date().toISOString(),
@@ -862,30 +805,27 @@
                 const email = document.getElementById('auth-email').value;
                 const rawPwd = document.getElementById('auth-pwd').value;
                 
+                // Chiffrement SHA-256 standard
                 const msgBuffer = new TextEncoder().encode(rawPwd);
                 const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
                 const hashArray = Array.from(new Uint8Array(hashBuffer));
                 const hashedPassword = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-                if(WEB_APP_URL.includes("VOTRE_SCRIPT_ID_ICI")) {
-                    if(email === "admin@resto.com" && rawPwd === "admin123") {
-                        this.setupAdminSession({ nom: "Administrateur Démo", role: "Admin" });
-                    } return;
-                }
-
                 try {
+                    // UTILISATION DU MODE TEXT/PLAIN POUR BYPASSER LE CORS SUR LE POST DE GOOGLE
                     const res = await fetch(WEB_APP_URL, {
                         method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify({ action: 'login', email, password: hashedPassword })
                     });
                     const data = await res.json();
                     if(data.success) {
                         this.setupAdminSession(data.user);
                     } else {
-                        alert("Identifiants incorrects : " + (data.error || "Erreur inconnue"));
+                        alert("Connexion impossible : " + (data.error || "Identifiants incorrects"));
                     }
                 } catch(e) { 
-                    alert("Échec d'authentification serveur."); 
+                    alert("Erreur critique : Impossible d'obtenir une réponse valide du serveur Google."); 
                 }
             },
 
@@ -901,6 +841,10 @@
                 document.getElementById('kpi-active-prod').innerText = State.produits.filter(p=>p.Disponible === "Oui").length;
                 document.getElementById('kpi-total-cat').innerText = State.categories.length;
 
+                document.getElementById('set-name').value = State.parametres.Nom_Restaurant || "";
+                document.getElementById('set-slogan').value = State.parametres.Slogan || "";
+                document.getElementById('set-currency').value = State.parametres.Devise || "";
+
                 const tbody = document.getElementById('admin-products-list');
                 let html = '';
                 State.produits.forEach(p => {
@@ -911,7 +855,6 @@
                             <td>${p.Nom_AR || ''}</td>
                             <td>${p.Prix} ${State.parametres.Devise || '€'}</td>
                             <td>${p.Disponible === 'Oui' ? '🟢 En Ligne' : '🔴 Masqué'}</td>
-                            <td><button class="btn-order" style="padding:4px 8px; font-size:12px; background:#8E8E93;">Options</button></td>
                         </tr>
                     `;
                 });
@@ -919,7 +862,6 @@
                 this.renderAdminOrders();
             },
 
-            // RENDU CRITICAL : LISTE DES COMMANDES ASSOCIÉES À CHAQUE TABLE
             renderAdminOrders() {
                 const container = document.getElementById('admin-orders-container');
                 const filterTable = document.getElementById('admin-filter-table').value;
@@ -935,13 +877,11 @@
                     return;
                 }
 
-                // Tri décroissant pour afficher l'activité récente en premier
                 filteredOrders.sort((a,b) => new Date(b.Date) - new Date(a.Date));
 
                 filteredOrders.forEach(o => {
                     let articles = [];
                     try { articles = JSON.parse(o.Articles_JSON); } catch(e){}
-                    
                     let itemsHtml = articles.map(a => `<li>${a.Nom} <b>(x${a.Qte})</b></li>`).join('');
 
                     html += `
@@ -975,28 +915,6 @@
                 document.getElementById('admin-dashboard-panel').style.display = 'none';
                 document.getElementById('admin-auth-panel').style.display = 'block';
                 Router.navigate('client');
-            },
-
-            setupUploadEngine() {
-                const dropzone = document.getElementById('image-dropzone');
-                const fileInput = document.getElementById('file-input');
-                if(!dropzone) return;
-
-                dropzone.addEventListener('click', () => fileInput.click());
-                dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
-                dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-                dropzone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    dropzone.classList.remove('dragover');
-                    if(e.dataTransfer.files.length) this.processImageFile(e.dataTransfer.files[0]);
-                });
-            },
-
-            processImageFile(file) {
-                const progress = document.getElementById('upload-progress');
-                progress.style.display = 'block';
-                progress.value = 50;
-                setTimeout(() => { progress.value = 100; alert("Image traitée avec succès"); }, 1000);
             }
         };
 
