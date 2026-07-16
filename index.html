@@ -13,8 +13,7 @@
     <meta name="twitter:card" content="summary_large_image">
     
     <meta name="theme-color" content="#007AFF">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/242/242452.png">
     
     <link rel="manifest" href='data:application/manifest+json,{"name":"Resto Menu Pro","short_name":"RestoMenu","start_url":".","display":"standalone","background_color":"#ffffff","theme_color":"#007AFF","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/242/242452.png","sizes":"512x512","type":"image/png"}]}'>
@@ -476,7 +475,6 @@
 
     <main>
         
-        <!-- VUE CLIENT -->
         <div id="view-client" class="view-segment">
             <div id="hero" class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200');">
                 <div class="hero-overlay">
@@ -484,7 +482,6 @@
                 </div>
             </div>
 
-            <!-- Sélection de Table Obligatoire pour commande -->
             <div class="table-selector-box glass">
                 <label id="lbl-table-select" style="font-weight: 600;">Numéro de votre Table :</label>
                 <select id="client-table-id" class="form-control" style="width: 100px;">
@@ -510,19 +507,20 @@
             <div class="products-grid" id="products-container"></div>
         </div>
 
-        <!-- VUE ADMINISTRATION -->
         <div id="view-admin" class="view-segment admin-view">
             <div id="admin-auth-panel" class="glass" style="max-width:400px; margin: 50px auto; padding: 30px; border-radius:var(--radius-lg);">
                 <h3 style="margin-bottom:20px; text-align:center;">Accès Sécurisé Resto Menu Pro</h3>
-                <div class="form-group">
-                    <label>Adresse Email</label>
-                    <input type="email" id="auth-email" class="form-control" value="admin@resto.com">
-                </div>
-                <div class="form-group">
-                    <label>Mot de passe</label>
-                    <input type="password" id="auth-pwd" class="form-control" placeholder="••••••••">
-                </div>
-                <button class="btn-order" style="width:100%; padding:12px; margin-top:10px;" onclick="App.processLogin()">Se connecter</button>
+                <form id="login-form" onsubmit="event.preventDefault(); App.processLogin();">
+                    <div class="form-group">
+                        <label for="auth-email">Adresse Email</label>
+                        <input type="email" id="auth-email" class="form-control" value="admin@resto.com" required autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="auth-pwd">Mot de passe</label>
+                        <input type="password" id="auth-pwd" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn-order" style="width:100%; padding:12px; margin-top:10px;">Se connecter</button>
+                </form>
             </div>
 
             <div id="admin-dashboard-panel" style="display:none;" class="admin-grid">
@@ -535,7 +533,6 @@
                 </aside>
 
                 <section class="admin-content">
-                    <!-- Tab Dashboard KPI -->
                     <div id="tab-dash" class="admin-tab">
                         <div class="kpi-container">
                             <div class="kpi-card glass"><div class="kpi-val" id="kpi-total-prod">0</div><div>Produits Référencés</div></div>
@@ -546,7 +543,6 @@
                         <div class="glass" style="padding:15px; border-radius:var(--radius-md);" id="db-status-log">Synchronisé en temps réel avec Google Sheets.</div>
                     </div>
 
-                    <!-- Tab Suivi des Commandes par Table -->
                     <div id="tab-orders" class="admin-tab" style="display:none;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
                             <h4>Suivi en Direct des Commandes par Table</h4>
@@ -568,11 +564,9 @@
                             </div>
                         </div>
                         <div id="admin-orders-container">
-                            <!-- Injection dynamique des commandes par table -->
-                        </div>
+                            </div>
                     </div>
 
-                    <!-- Tab Crud Produits -->
                     <div id="tab-products" class="admin-tab" style="display:none;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                             <h4>Catalogue Produits</h4>
@@ -600,7 +594,6 @@
                         </table>
                     </div>
 
-                    <!-- Tab Form Paramètres -->
                     <div id="tab-settings" class="admin-tab" style="display:none;">
                         <h4>Paramètres Globaux de l'Établissement</h4>
                         <div class="glass" style="padding:20px; border-radius:var(--radius-lg); margin-top:15px;">
@@ -886,8 +879,14 @@
                         body: JSON.stringify({ action: 'login', email, password: hashedPassword })
                     });
                     const data = await res.json();
-                    if(data.success) this.setupAdminSession(data.user);
-                } catch(e) { alert("Échec d'authentification serveur."); }
+                    if(data.success) {
+                        this.setupAdminSession(data.user);
+                    } else {
+                        alert("Identifiants incorrects : " + (data.error || "Erreur inconnue"));
+                    }
+                } catch(e) { 
+                    alert("Échec d'authentification serveur."); 
+                }
             },
 
             setupAdminSession(user) {
@@ -947,7 +946,7 @@
 
                     html += `
                         <div class="order-card-admin glass">
-                            <div style="display:flex; justify-content:between; justify-content: space-between; align-items:center; margin-bottom:10px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                                 <div>
                                     <span style="background:var(--primary); color:white; padding:4px 10px; border-radius:20px; font-weight:bold; font-size:14px;">
                                         TABLE ${o.Table}
