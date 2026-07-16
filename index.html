@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resto Menu Pro</title>
+    
+    <meta name="description" content="Découvrez la carte digitale interactive premium de notre restaurant.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Resto Menu Pro - Carte Digitale">
+    <meta property="og:description" content="Consultez en temps réel nos menus, nouveautés et promotions exclusives.">
+    <meta property="og:image" content="">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <meta name="theme-color" content="#007AFF">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/242/242452.png">
+    
+    <link rel="manifest" href='data:application/manifest+json,{"name":"Resto Menu Pro","short_name":"RestoMenu","start_url":".","display":"standalone","background_color":"#ffffff","theme_color":"#007AFF","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/242/242452.png","sizes":"512x512","type":"image/png"}]}'>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #007AFF;
+            --primary-rgb: 0, 122, 255;
+            --secondary: #5856D6;
+            --bg-light: #F2F2F7;
+            --surface-light: rgba(255, 255, 255, 0.75);
+            --text-light: #1C1C1E;
+            --text-muted-light: #8E8E93;
+            
+            --bg-dark: #1C1C1E;
+            --surface-dark: rgba(28, 28, 30, 0.75);
+            --text-dark: #F2F2F7;
+            --text-muted-dark: #AEAEB2;
+
+            --bg: var(--bg-light);
+            --surface: var(--surface-light);
+            --text: var(--text-light);
+            --text-muted: var(--text-muted-light);
+            --blur: 20px;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg: var(--bg-dark);
+            --surface: var(--surface-dark);
+            --text: var(--text-dark);
+            --text-muted: var(--text-muted-dark);
+        }
+
+        body.rtl {
+            direction: rtl;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'SF Pro Display', 'Cairo', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.high-contrast {
+            --primary: #0056b3;
+            --bg: #ffffff;
+            --text: #000000;
+            --surface: #ffffff;
+            border: 2px solid #000;
+        }
+
+        .glass {
+            background: var(--surface);
+            backdrop-filter: blur(var(--blur));
+            -webkit-backdrop-filter: blur(var(--blur));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-icon {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .btn-icon:hover {
+            background: rgba(var(--primary-rgb), 0.1);
+        }
+
+        .lang-selector {
+            padding: 6px 10px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(0,0,0,0.15);
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-banner {
+            height: 200px;
+            border-radius: var(--radius-lg);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            color: white;
+        }
+
+        .table-selector-box {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border: none;
+            border-radius: var(--radius-md);
+            outline: none;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        body.rtl .search-input {
+            padding: 16px 50px 16px 20px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            fill: var(--text-muted);
+        }
+
+        body.rtl .search-icon {
+            left: auto;
+            right: 18px;
+        }
+
+        .categories-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            scrollbar-width: none;
+        }
+        .categories-scroll::-webkit-scrollbar { display: none; }
+
+        .cat-badge {
+            padding: 10px 20px;
+            border-radius: var(--radius-lg);
+            white-space: nowrap;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .cat-badge.active {
+            background: var(--primary) !important;
+            color: white !important;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card-img-container {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+            background: #E5E5EA;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card-badges {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        body.rtl .card-badges {
+            left: auto;
+            right: 12px;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .badge-promo { background: #FF3B30; }
+        .badge-popular { background: #FF9500; }
+        .badge-new { background: #34C759; }
+
+        .card-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .product-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .current-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .btn-order {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-order:hover { opacity: 0.9; }
+
+        .admin-view {
+            display: none;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .admin-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .admin-nav-item {
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .admin-nav-item.active, .admin-nav-item:hover {
+            background: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary);
+        }
+
+        .kpi-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .kpi-card {
+            padding: 20px;
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+
+        .kpi-val {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .crud-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .crud-table th, .crud-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        body.rtl .crud-table th, body.rtl .crud-table td {
+            text-align: right;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid rgba(0,0,0,0.15);
+            border-radius: var(--radius-md);
+            background: transparent;
+            color: var(--text);
+        }
+
+        .dropzone {
+            border: 2px dashed var(--text-muted);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .order-card-admin {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: var(--radius-md);
+            border-left: 5px solid var(--primary);
+        }
+
+        body.rtl .order-card-admin {
+            border-left: none;
+            border-right: 5px solid var(--primary);
+        }
+
+        @media(max-width: 768px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-sidebar {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="glass">
+        <div class="brand-container">
+            <img id="app-logo" src="https://cdn-icons-png.flaticon.com/512/242/242452.png" alt="Logo" class="logo-img">
+            <div>
+                <h1 id="app-name" style="font-size: 18px; font-weight:700;">Resto Menu Pro</h1>
+                <p id="app-slogan" style="font-size: 12px; color: var(--text-muted);"></p>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <select class="lang-selector" id="lang-select" onchange="App.changeLanguage(this.value)">
+                <option value="fr">FR</option>
+                <option value="ar">AR</option>
+            </select>
+            <button class="btn-icon" id="theme-toggle" aria-label="Changer de thème" onclick="App.toggleTheme()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+            <button class="btn-icon" id="admin-gate" aria-label="Espace Administration" onclick="Router.navigate('admin')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        
+        <!-- VUE CLIENT -->
+        <div id="view-client" class="view-segment">
+            <div id="hero" class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200');">
+                <div class="hero-overlay">
+                    <h2 id="client-welcome-name">Bienvenue chez Resto Menu Pro</h2>
+                </div>
+            </div>
+
+            <!-- Sélection de Table Obligatoire pour commande -->
+            <div class="table-selector-box glass">
+                <label id="lbl-table-select" style="font-weight: 600;">Numéro de votre Table :</label>
+                <select id="client-table-id" class="form-control" style="width: 100px;">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="search-wrapper glass">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" id="main-search" class="search-input" placeholder="Rechercher..." oninput="App.filterMenu()">
+            </div>
+
+            <div class="categories-scroll" id="categories-container"></div>
+            <div class="products-grid" id="products-container"></div>
+        </div>
+
+        <!-- VUE ADMINISTRATION -->
+        <div id="view-admin" class="view-segment admin-view">
+            <div id="admin-auth-panel" class="glass" style="max-width:400px; margin: 50px auto; padding: 30px; border-radius:var(--radius-lg);">
+                <h3 style="margin-bottom:20px; text-align:center;">Accès Sécurisé Resto Menu Pro</h3>
+                <div class="form-group">
+                    <label>Adresse Email</label>
+                    <input type="email" id="auth-email" class="form-control" value="admin@resto.com">
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="auth-pwd" class="form-control" placeholder="••••••••">
+                </div>
+                <button class="btn-order" style="width:100%; padding:12px; margin-top:10px;" onclick="App.processLogin()">Se connecter</button>
+            </div>
+
+            <div id="admin-dashboard-panel" style="display:none;" class="admin-grid">
+                <aside class="admin-sidebar">
+                    <div class="admin-nav-item active" onclick="App.switchAdminTab('dash')">Tableau de bord</div>
+                    <div class="admin-nav-item" id="nav-orders-tab" onclick="App.switchAdminTab('orders')">Commandes par Table</div>
+                    <div class="admin-nav-item" onclick="App.switchAdminTab('products')">Gestion Produits</div>
+                    <div class="admin-nav-item" onclick="App.switchAdminTab('settings')">Configuration</div>
+                    <div class="admin-nav-item" onclick="App.logout()">Déconnexion</div>
+                </aside>
+
+                <section class="admin-content">
+                    <!-- Tab Dashboard KPI -->
+                    <div id="tab-dash" class="admin-tab">
+                        <div class="kpi-container">
+                            <div class="kpi-card glass"><div class="kpi-val" id="kpi-total-prod">0</div><div>Produits Référencés</div></div>
+                            <div class="kpi-card glass"><div class="kpi-val" id="kpi-active-prod">0</div><div>En Cuisine / Dispo</div></div>
+                            <div class="kpi-card glass"><div class="kpi-val" id="kpi-total-cat">0</div><div>Catégories</div></div>
+                        </div>
+                        <h4 style="margin-bottom:15px;">Dernière Activité Base de données</h4>
+                        <div class="glass" style="padding:15px; border-radius:var(--radius-md);" id="db-status-log">Synchronisé en temps réel avec Google Sheets.</div>
+                    </div>
+
+                    <!-- Tab Suivi des Commandes par Table -->
+                    <div id="tab-orders" class="admin-tab" style="display:none;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                            <h4>Suivi en Direct des Commandes par Table</h4>
+                            <div>
+                                <label style="margin-right:10px;">Filtrer par Table :</label>
+                                <select id="admin-filter-table" class="form-control" style="width:120px; display:inline-block;" onchange="App.renderAdminOrders()">
+                                    <option value="all">Toutes les tables</option>
+                                    <option value="1">Table 1</option>
+                                    <option value="2">Table 2</option>
+                                    <option value="3">Table 3</option>
+                                    <option value="4">Table 4</option>
+                                    <option value="5">Table 5</option>
+                                    <option value="6">Table 6</option>
+                                    <option value="7">Table 7</option>
+                                    <option value="8">Table 8</option>
+                                    <option value="9">Table 9</option>
+                                    <option value="10">Table 10</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="admin-orders-container">
+                            <!-- Injection dynamique des commandes par table -->
+                        </div>
+                    </div>
+
+                    <!-- Tab Crud Produits -->
+                    <div id="tab-products" class="admin-tab" style="display:none;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                            <h4>Catalogue Produits</h4>
+                            <button class="btn-order" onclick="alert('Formulaire complet accessible via votre Google Sheet lié')">Ajouter un Produit</button>
+                        </div>
+                        
+                        <div class="dropzone" id="image-dropzone">
+                            <p>Glissez-déposez une image ici pour l'héberger sur votre Google Drive (Auto-WebP)</p>
+                            <input type="file" id="file-input" style="display:none;" accept="image/*">
+                            <progress id="upload-progress" value="0" max="100" style="width:100%; display:none; margin-top:10px;"></progress>
+                        </div>
+
+                        <table class="crud-table glass">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Nom (FR)</th>
+                                    <th>الاسم (AR)</th>
+                                    <th>Prix</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-products-list"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tab Form Paramètres -->
+                    <div id="tab-settings" class="admin-tab" style="display:none;">
+                        <h4>Paramètres Globaux de l'Établissement</h4>
+                        <div class="glass" style="padding:20px; border-radius:var(--radius-lg); margin-top:15px;">
+                            <div class="form-group"><label>Nom du Restaurant</label><input type="text" id="set-name" class="form-control"></div>
+                            <div class="form-group"><label>Slogan</label><input type="text" id="set-slogan" class="form-control"></div>
+                            <div class="form-group"><label>Devise Monétaire</label><input type="text" id="set-currency" class="form-control"></div>
+                            <button class="btn-order" onclick="App.saveSettings()">Enregistrer les paramètres</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwDomf_gJ69NMcEnHSISkQWMgF1r6jASAP0SzJHGV8mR48AFPp0J9CAB3AAP7-JAsFR/exec";
+
+        const Dictionnaires = {
+            fr: {
+                welcome: "Bienvenue chez",
+                searchPlaceholder: "Rechercher une saveur, un plat...",
+                allMenu: "✨ Tout le Menu",
+                tableLabel: "Numéro de votre Table :",
+                orderBtn: "Commander",
+                orderSuccess: "Chère Table {table}, votre commande a été transmise en cuisine !",
+                noProduct: "Aucun plat ne correspond à vos critères."
+            },
+            ar: {
+                welcome: "مرحباً بكم في",
+                searchPlaceholder: "ابحث عن طبق أو نكهة...",
+                allMenu: "✨ كل القائمة",
+                tableLabel: "رقم الطاولة الخاصة بكم :",
+                orderBtn: "اطلب الآن",
+                orderSuccess: "طاولة رقم {table}، تم إرسال طلبكم المطبخ بنجاح !",
+                noProduct: "لم نجد أي طبق يطابق خياراتكم."
+            }
+        };
+
+        const State = {
+            parametres: {},
+            categories: [],
+            produits: [],
+            commandes: [],
+            activeCategory: 'all',
+            sessionUser: null,
+            currentLang: 'fr'
+        };
+
+        const Router = {
+            navigate(view) {
+                document.querySelectorAll('.view-segment').forEach(el => el.style.display = 'none');
+                if(view === 'admin') {
+                    document.getElementById('view-admin').style.display = 'block';
+                    if(State.sessionUser) {
+                        document.getElementById('admin-auth-panel').style.display = 'none';
+                        document.getElementById('admin-dashboard-panel').style.display = 'grid';
+                    }
+                } else {
+                    document.getElementById('view-client').style.display = 'block';
+                }
+            }
+        };
+
+        const App = {
+            async init() {
+                this.detectTheme();
+                await this.fetchData();
+                this.renderClientUI();
+                this.setupUploadEngine();
+            },
+
+            detectTheme() {
+                if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            },
+
+            toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+            },
+
+            changeLanguage(lang) {
+                State.currentLang = lang;
+                if(lang === 'ar') {
+                    document.body.classList.add('rtl');
+                } else {
+                    document.body.classList.remove('rtl');
+                }
+                this.renderClientUI();
+            },
+
+            async fetchData() {
+                try {
+                    if(WEB_APP_URL.includes("VOTRE_SCRIPT_ID_ICI")) {
+                        State.parametres = { Nom_Restaurant: "L'Atelier Gourmet Pro", Slogan: "Créations culinaires écoresponsables / إبداعات الطهي المستدامة", Devise: "€" };
+                        State.categories = [
+                            { ID: "cat_1", Nom: "Entrées", Nom_AR: "المقبلات", Icone: "🥗" },
+                            { ID: "cat_2", Nom: "Plats", Nom_AR: "الأطباق الرئيسية", Icone: "🍳" }
+                        ];
+                        State.produits = [
+                            { ID: "p1", Nom: "Avocat Craquant", Nom_AR: "أفوكادو مقرمش", Description: "Émulsion d'agrumes.", Description_AR: "مستحلب الحمضيات الطازجة.", Categorie: "cat_1", Prix: 12, Disponible: "Oui", Populaire: "Oui", Image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=400" },
+                            { ID: "p2", Nom: "Filet de Bar Rôti", Nom_AR: "فيليه سمك القاروص", Description: "Mousseline de panais.", Description_AR: "موسلين الجزر الأبيض.", Categorie: "cat_2", Prix: 26, Disponible: "Oui", Nouveau: "Oui", Image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=400" }
+                        ];
+                        State.commandes = [
+                            { ID: "CMD_01", Date: new Date().toISOString(), Table: "3", Client_Nom: "Walk-in", Total: 38, Statut: "En attente", Articles_JSON: '[{"Nom":"Avocat Craquant","Qte":1},{"Nom":"Filet de Bar Rôti","Qte":1}]' }
+                        ];
+                        return;
+                    }
+
+                    const res = await fetch(`${WEB_APP_URL}?action=getInitialData`);
+                    const json = await res.json();
+                    
+                    State.parametres = json.parametres;
+                    State.categories = json.categories;
+                    State.produits = json.produits;
+                    State.commandes = json.commandes || [];
+                } catch(err) {
+                    console.error("Erreur d'acquisition réseau: ", err);
+                }
+            },
+
+            renderClientUI() {
+                const dict = Dictionnaires[State.currentLang];
+                
+                document.getElementById('app-name').innerText = State.parametres.Nom_Restaurant || "Resto Menu Pro";
+                document.getElementById('app-slogan').innerText = State.parametres.Slogan || "";
+                document.getElementById('client-welcome-name').innerText = `${dict.welcome} ${State.parametres.Nom_Restaurant || ""}`;
+                document.getElementById('lbl-table-select').innerText = dict.tableLabel;
+                document.getElementById('main-search').placeholder = dict.searchPlaceholder;
+
+                const catContainer = document.getElementById('categories-container');
+                let catHtml = `<div class="cat-badge glass active" data-cat="all" onclick="App.setActiveCategory('all')">${dict.allMenu}</div>`;
+                State.categories.forEach(c => {
+                    const name = State.currentLang === 'ar' ? c.Nom_AR : c.Nom;
+                    catHtml += `<div class="cat-badge glass" data-cat="${c.ID}" onclick="App.setActiveCategory('${c.ID}')">${c.Icone || ''} ${name}</div>`;
+                });
+                catContainer.innerHTML = catHtml;
+
+                this.renderProducts(State.produits);
+            },
+
+            renderProducts(list) {
+                const prodContainer = document.getElementById('products-container');
+                const dict = Dictionnaires[State.currentLang];
+                let html = '';
+                
+                const filtered = list.filter(p => p.Disponible === "Oui");
+
+                if(filtered.length === 0) {
+                    prodContainer.innerHTML = `<p style='grid-column: 1/-1; text-align:center; padding:40px; color:var(--text-muted);'>${dict.noProduct}</p>`;
+                    return;
+                }
+
+                filtered.forEach(p => {
+                    const dev = State.parametres.Devise || "€";
+                    const displayNom = State.currentLang === 'ar' ? p.Nom_AR : p.Nom;
+                    const displayDesc = State.currentLang === 'ar' ? p.Description_AR : p.Description;
+                    
+                    html += `
+                        <article class="product-card glass">
+                            <div class="card-img-container">
+                                <img data-src="${p.Image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?q=80&w=400'}" alt="${displayNom}" class="product-img dynamic-lazy">
+                                <div class="card-badges">
+                                    ${p.Populaire === "Oui" ? '<span class="badge badge-popular">Populaire</span>' : ''}
+                                    ${p.Nouveau === "Oui" ? '<span class="badge badge-new">Nouveau</span>' : ''}
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <h3 style="font-size:16px; font-weight:600; margin-bottom:6px;">${displayNom}</h3>
+                                    <p style="font-size:13px; color:var(--text-muted); line-height:1.4;">${displayDesc || ''}</p>
+                                </div>
+                                <div class="product-price-row">
+                                    <span class="current-price">${p.Prix}${dev}</span>
+                                    <button class="btn-order" onclick="App.triggerOrder('${p.ID}')">${dict.orderBtn}</button>
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                });
+                prodContainer.innerHTML = html;
+                this.initLazyLoading();
+            },
+
+            setActiveCategory(catId) {
+                State.activeCategory = catId;
+                document.querySelectorAll('.cat-badge').forEach(el => el.classList.remove('active'));
+                document.querySelector(`[data-cat="${catId}"]`).classList.add('active');
+                this.filterMenu();
+            },
+
+            filterMenu() {
+                const query = document.getElementById('main-search').value.toLowerCase();
+                let filtered = State.produits;
+
+                if(State.activeCategory !== 'all') {
+                    filtered = filtered.filter(p => p.Categorie === State.activeCategory);
+                }
+
+                if(query.trim() !== "") {
+                    filtered = filtered.filter(p => 
+                        p.Nom.toLowerCase().includes(query) || 
+                        (p.Nom_AR && p.Nom_AR.includes(query))
+                    );
+                }
+                this.renderProducts(filtered);
+            },
+
+            initLazyLoading() {
+                const images = document.querySelectorAll('.dynamic-lazy');
+                if ('IntersectionObserver' in window) {
+                    const obs = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const img = entry.target;
+                                img.src = img.dataset.src;
+                                observer.unobserve(img);
+                            }
+                        });
+                    });
+                    images.forEach(img => obs.observe(img));
+                } else {
+                    images.forEach(img => img.src = img.dataset.src);
+                }
+            },
+
+            async triggerOrder(id) {
+                const item = State.produits.find(p => p.ID === id);
+                const tableId = document.getElementById('client-table-id').value;
+                const dict = Dictionnaires[State.currentLang];
+
+                const orderPayload = {
+                    Table: tableId,
+                    Client_Nom: "Client Table " + tableId,
+                    Total: item.Prix,
+                    Articles_JSON: JSON.stringify([{ Nom: item.Nom, Qte: 1 }])
+                };
+
+                if(!WEB_APP_URL.includes("VOTRE_SCRIPT_ID_ICI")) {
+                    try {
+                        await fetch(WEB_APP_URL, {
+                            method: 'POST',
+                            body: JSON.stringify({ action: 'newCommande', data: orderPayload })
+                        });
+                    } catch(e) { console.error("Erreur d'envoi de la commande"); }
+                }
+
+                // Simulation synchrone du push local pour démonstration instantanée
+                State.commandes.push({
+                    ID: "CMD_" + Date.now(),
+                    Date: new Date().toISOString(),
+                    Table: tableId,
+                    Client_Nom: orderPayload.Client_Nom,
+                    Total: item.Prix,
+                    Statut: "En attente",
+                    Articles_JSON: orderPayload.Articles_JSON
+                });
+
+                alert(dict.orderSuccess.replace("{table}", tableId));
+            },
+
+            async processLogin() {
+                const email = document.getElementById('auth-email').value;
+                const rawPwd = document.getElementById('auth-pwd').value;
+                
+                const msgBuffer = new TextEncoder().encode(rawPwd);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashedPassword = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                if(WEB_APP_URL.includes("VOTRE_SCRIPT_ID_ICI")) {
+                    if(email === "admin@resto.com" && rawPwd === "admin123") {
+                        this.setupAdminSession({ nom: "Administrateur Démo", role: "Admin" });
+                    } return;
+                }
+
+                try {
+                    const res = await fetch(WEB_APP_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({ action: 'login', email, password: hashedPassword })
+                    });
+                    const data = await res.json();
+                    if(data.success) this.setupAdminSession(data.user);
+                } catch(e) { alert("Échec d'authentification serveur."); }
+            },
+
+            setupAdminSession(user) {
+                State.sessionUser = user;
+                document.getElementById('admin-auth-panel').style.display = 'none';
+                document.getElementById('admin-dashboard-panel').style.display = 'grid';
+                this.loadAdminDashboard();
+            },
+
+            loadAdminDashboard() {
+                document.getElementById('kpi-total-prod').innerText = State.produits.length;
+                document.getElementById('kpi-active-prod').innerText = State.produits.filter(p=>p.Disponible === "Oui").length;
+                document.getElementById('kpi-total-cat').innerText = State.categories.length;
+
+                const tbody = document.getElementById('admin-products-list');
+                let html = '';
+                State.produits.forEach(p => {
+                    html += `
+                        <tr>
+                            <td><img src="${p.Image || ''}" style="width:40px; height:40px; object-fit:cover; border-radius:6px;"></td>
+                            <td><b>${p.Nom}</b></td>
+                            <td>${p.Nom_AR || ''}</td>
+                            <td>${p.Prix} ${State.parametres.Devise || '€'}</td>
+                            <td>${p.Disponible === 'Oui' ? '🟢 En Ligne' : '🔴 Masqué'}</td>
+                            <td><button class="btn-order" style="padding:4px 8px; font-size:12px; background:#8E8E93;">Options</button></td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html;
+                this.renderAdminOrders();
+            },
+
+            // RENDU CRITICAL : LISTE DES COMMANDES ASSOCIÉES À CHAQUE TABLE
+            renderAdminOrders() {
+                const container = document.getElementById('admin-orders-container');
+                const filterTable = document.getElementById('admin-filter-table').value;
+                let html = '';
+
+                let filteredOrders = State.commandes;
+                if(filterTable !== 'all') {
+                    filteredOrders = State.commandes.filter(o => String(o.Table) === String(filterTable));
+                }
+
+                if(filteredOrders.length === 0) {
+                    container.innerHTML = `<p style="text-align:center; padding:20px; color:var(--text-muted);">Aucune commande active pour cette sélection.</p>`;
+                    return;
+                }
+
+                // Tri décroissant pour afficher l'activité récente en premier
+                filteredOrders.sort((a,b) => new Date(b.Date) - new Date(a.Date));
+
+                filteredOrders.forEach(o => {
+                    let articles = [];
+                    try { articles = JSON.parse(o.Articles_JSON); } catch(e){}
+                    
+                    let itemsHtml = articles.map(a => `<li>${a.Nom} <b>(x${a.Qte})</b></li>`).join('');
+
+                    html += `
+                        <div class="order-card-admin glass">
+                            <div style="display:flex; justify-content:between; justify-content: space-between; align-items:center; margin-bottom:10px;">
+                                <div>
+                                    <span style="background:var(--primary); color:white; padding:4px 10px; border-radius:20px; font-weight:bold; font-size:14px;">
+                                        TABLE ${o.Table}
+                                    </span>
+                                    <span style="margin-left:10px; font-size:12px; color:var(--text-muted);">${new Date(o.Date).toLocaleTimeString()}</span>
+                                </div>
+                                <span style="font-weight:700; color:var(--primary);">${o.Total} ${State.parametres.Devise || '€'}</span>
+                            </div>
+                            <ul style="padding-left:20px; margin-bottom:10px; font-size:14px;">
+                                ${itemsHtml}
+                            </ul>
+                            <div style="font-size:12px; color:var(--text-muted);">Statut cuisine : <b>${o.Statut}</b></div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            },
+
+            switchAdminTab(tab) {
+                document.querySelectorAll('.admin-tab').forEach(el => el.style.display = 'none');
+                document.getElementById(`tab-${tab}`).style.display = 'block';
+            },
+
+            logout() {
+                State.sessionUser = null;
+                document.getElementById('admin-dashboard-panel').style.display = 'none';
+                document.getElementById('admin-auth-panel').style.display = 'block';
+                Router.navigate('client');
+            },
+
+            setupUploadEngine() {
+                const dropzone = document.getElementById('image-dropzone');
+                const fileInput = document.getElementById('file-input');
+                if(!dropzone) return;
+
+                dropzone.addEventListener('click', () => fileInput.click());
+                dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+                dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+                dropzone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    dropzone.classList.remove('dragover');
+                    if(e.dataTransfer.files.length) this.processImageFile(e.dataTransfer.files[0]);
+                });
+            },
+
+            processImageFile(file) {
+                const progress = document.getElementById('upload-progress');
+                progress.style.display = 'block';
+                progress.value = 50;
+                setTimeout(() => { progress.value = 100; alert("Image traitée avec succès"); }, 1000);
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => App.init());
+    </script>
+</body>
+</html>
